@@ -5,9 +5,9 @@ import java.io.OutputStream;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import it.grimi.modularserver.core.MUtilities;
+import it.grimi.modularserver.core.ModuleUtilities;
 
-public class AwesomeThings extends MUtilities implements HttpHandler
+public class AwesomeThings extends ModuleUtilities implements HttpHandler
 {
 
     /**

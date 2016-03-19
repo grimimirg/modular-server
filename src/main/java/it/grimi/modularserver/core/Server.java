@@ -7,12 +7,12 @@ import java.util.concurrent.Executor;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
-public class HServer
+public class Server
 {
 
     private HttpServer hserver = null;
 
-    public HServer(int socket)
+    public Server(int socket)
     {
         try {
             System.out.println("Starting...");

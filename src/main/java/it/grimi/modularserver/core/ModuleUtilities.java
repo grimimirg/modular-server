@@ -3,7 +3,7 @@ package it.grimi.modularserver.core;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MUtilities {
+public class ModuleUtilities {
 
     protected Map<String, String> queryToMap(String query) {
         Map<String, String> result = new HashMap<String, String>();

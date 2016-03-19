@@ -6,31 +6,31 @@ import java.util.concurrent.Executor;
 
 import com.sun.net.httpserver.HttpHandler;
 
-public class HServerBase
+public class ModularServer
 {
 
-    private HServer server = null;
+    private Server server = null;
     private Executor executor = null;
 
     private List<String> modules = new LinkedList<>();
 
-    public HServerBase()
+    public ModularServer()
     {
-        this.server = new HServer(80);
+        this.server = new Server(80);
     }
 
-    public HServerBase(int port)
+    public ModularServer(int port)
     {
-        this.server = new HServer(port);
+        this.server = new Server(port);
     }
 
-    public HServerBase(int port, Executor ex)
+    public ModularServer(int port, Executor ex)
     {
-        this.server = new HServer(port);
+        this.server = new Server(port);
         this.executor = ex;
     }
 
-    public HServerBase(Executor ex)
+    public ModularServer(Executor ex)
     {
         this.executor = ex;
     }
