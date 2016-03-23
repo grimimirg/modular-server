@@ -239,10 +239,12 @@ public class ModularServer
 
     /**
      *
+     * @return
      */
-    public void start()
+    public ModularServer start()
     {
         this.server.addExecutor(this.executor);
         this.server.hsStart();
+        return this;
     }
 }
