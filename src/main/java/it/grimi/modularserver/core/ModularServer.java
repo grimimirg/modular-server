@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package it.grimi.modularserver.core;
 
 import java.util.LinkedList;
@@ -6,66 +11,167 @@ import java.util.concurrent.Executor;
 
 import com.sun.net.httpserver.HttpHandler;
 
+/**
+ *
+ * @author agrimandi
+ */
 public class ModularServer
 {
 
     private Server server = null;
     private Executor executor = null;
 
-    private List<String> modules = new LinkedList<>();
+    private List<String> classHandlers = new LinkedList<>();
+    private List<HttpHandler> handlers = new LinkedList<>();
 
+    /**
+     *
+     */
     public ModularServer()
     {
-        this.server = new Server(80);
+        this.server = new Server(59997);
     }
 
+    /**
+     *
+     * @param port
+     */
     public ModularServer(int port)
     {
         this.server = new Server(port);
     }
 
+    /**
+     *
+     * @param port
+     * @param ex
+     */
     public ModularServer(int port, Executor ex)
     {
         this.server = new Server(port);
         this.executor = ex;
     }
 
+    /**
+     *
+     * @param ex
+     */
     public ModularServer(Executor ex)
     {
         this.executor = ex;
     }
 
+    /**
+     *
+     * @param module
+     */
     public void addModule(String module)
     {
-        this.modules.add(module);
+        this.classHandlers.add(module);
     }
 
-    public List<String> getModules()
+    /**
+     *
+     * @param module
+     */
+    public void addModule(HttpHandler module)
     {
-        return modules;
+        this.handlers.add(module);
     }
 
-    public void setModules(List<String> modules)
+    /**
+     *
+     * @return
+     */
+    public List<String> getClassHandlers()
     {
-        this.modules = modules;
+        return classHandlers;
     }
 
+    /**
+     *
+     * @param classHandlers
+     */
+    public void setClassHandlers(List<String> classHandlers)
+    {
+        this.classHandlers = classHandlers;
+    }
+
+    /**
+     *
+     * @param module
+     */
     public void removeModule(String module)
     {
-        this.modules.remove(module);
+        this.classHandlers.remove(module);
     }
 
+    /**
+     *
+     * @param index
+     */
     public void removeModule(int index)
     {
-        this.modules.remove(index);
+        this.classHandlers.remove(index);
     }
 
-    public void start()
+    /**
+     *
+     * @return
+     */
+    public List<HttpHandler> getHandlers()
     {
-        this.start(this.modules);
+        return this.handlers;
     }
 
-    public void start(List<String> modules)
+    /**
+     *
+     * @param handlers
+     */
+    public void setHandlers(List<HttpHandler> handlers)
+    {
+        this.handlers = handlers;
+    }
+
+    /**
+     *
+     * @param handler
+     */
+    public void removeHandlerModule(HttpHandler handler)
+    {
+        this.handlers.remove(handler);
+    }
+
+    /**
+     *
+     * @param index
+     */
+    public void removeHandlerModule(int index)
+    {
+        this.handlers.remove(index);
+    }
+
+    /**
+     *
+     */
+    public void buildClassHandlers()
+    {
+        this.buildClassHandlers(this.classHandlers);
+    }
+
+    /**
+     *
+     */
+    public void buildHandlers()
+    {
+        this.buildHandlers(this.handlers);
+    }
+
+    /**
+     *
+     * @param modules
+     */
+    public void buildClassHandlers(List<String> modules)
     {
         try {
             int loadedModules = 0;
@@ -88,13 +194,55 @@ public class ModularServer
                 }
             }
 
-            System.out.println(loadedModules + " modules loaded");
-
-            this.server.addExecutor(this.executor);
-            this.server.hsStart();
+            System.out.println(loadedModules + " class modules loaded");
 
         } catch (NumberFormatException | InstantiationException | IllegalAccessException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    /**
+     *
+     * @param modules
+     */
+    public void buildHandlers(List<HttpHandler> modules)
+    {
+        int loadedModules = 0;
+
+        for (HttpHandler module : modules) {
+            this.server.addContext("/" + module.getClass().getSimpleName(), module);
+            loadedModules++;
+        }
+
+        System.out.println(loadedModules + " modules loaded");
+    }
+
+    /**
+     *
+     * @param modules
+     * @param handlers
+     */
+    public void build(List<String> modules, List<HttpHandler> handlers)
+    {
+        this.buildClassHandlers(modules);
+        this.buildHandlers(handlers);
+    }
+
+    /**
+     *
+     */
+    public void build()
+    {
+        this.buildClassHandlers();
+        this.buildHandlers();
+    }
+
+    /**
+     *
+     */
+    public void start()
+    {
+        this.server.addExecutor(this.executor);
+        this.server.hsStart();
     }
 }
