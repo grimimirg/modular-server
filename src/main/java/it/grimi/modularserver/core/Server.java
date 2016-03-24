@@ -10,13 +10,13 @@ import com.sun.net.httpserver.HttpServer;
 public class Server
 {
 
-    private HttpServer hserver = null;
+    private HttpServer server = null;
 
     public Server(int socket)
     {
         try {
-            System.out.println("Starting...");
-            this.hserver = HttpServer.create(new InetSocketAddress(socket), 0);
+            System.out.println("Server is running on port " + socket);
+            this.server = HttpServer.create(new InetSocketAddress(socket), 0);
 
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
@@ -25,17 +25,18 @@ public class Server
 
     public void addContext(String path, HttpHandler handler)
     {
-        this.hserver.createContext(path, handler);
+        System.out.println(path + " added");
+        this.server.createContext(path, handler);
     }
 
     public void addExecutor(Executor ex)
     {
-        this.hserver.setExecutor(ex);
+        this.server.setExecutor(ex);
     }
 
-    public void hsStart()
+    public void start()
     {
-        this.hserver.start();
+        this.server.start();
     }
 
 }

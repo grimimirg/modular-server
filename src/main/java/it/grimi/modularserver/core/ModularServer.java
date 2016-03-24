@@ -194,7 +194,7 @@ public class ModularServer
                 }
             }
 
-            System.out.println(loadedModules + " class modules loaded");
+            System.out.println(loadedModules + " classes loaded");
 
         } catch (NumberFormatException | InstantiationException | IllegalAccessException e) {
             System.out.println(e.getMessage());
@@ -214,7 +214,7 @@ public class ModularServer
             loadedModules++;
         }
 
-        System.out.println(loadedModules + " modules loaded");
+        System.out.println(loadedModules + " loaded");
     }
 
     /**
@@ -244,7 +244,7 @@ public class ModularServer
     public ModularServer start()
     {
         this.server.addExecutor(this.executor);
-        this.server.hsStart();
+        this.server.start();
         return this;
     }
 }

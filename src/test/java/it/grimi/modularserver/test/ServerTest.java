@@ -9,7 +9,7 @@ public class ServerTest
     public static void main(String[] args) throws NumberFormatException, IOException
     {
         ModularServer server = new ModularServer();
-        server.addModule(new AwesomeThings());
+        server.addModule(AwesomeThings.class.getName());
         server.build();
         server.start();
     }
