@@ -18,7 +18,7 @@ public class AwesomeThings extends ModuleUtilities implements HttpHandler
     @Override
     public void handle(HttpExchange exch) throws IOException
     {
-        String response = "<h1>SUKAAAA!!!</h1>";
+        String response = "<h1>AND HIS NAME IS JOHN CENA!</h1>";
         exch.sendResponseHeaders(200, response.length());
         OutputStream os = exch.getResponseBody();
         os.write(response.getBytes());
